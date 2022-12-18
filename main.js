@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { ARButton } from 'three/examples/jsm/webxr/ARButton';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+//import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { LoadingBar } from './Utils/LoadingBar';
 
 class App{
@@ -12,7 +12,7 @@ class App{
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
 
-		this.assetsPath = '../../assets/ar-shop/';
+		this.assetsPath = '../../assets/ar-shop/Pokemon/';
         
 		this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
 		this.camera.position.set( 0, 1.6, 0 );
@@ -28,7 +28,7 @@ class App{
 		this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.outputEncoding = THREE.sRGBEncoding;
 		container.appendChild( this.renderer.domElement );
-        this.setEnvironment();
+        //this.setEnvironment();
         
         this.reticle = new THREE.Mesh(
             new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
@@ -88,28 +88,28 @@ class App{
     	this.renderer.setSize( window.innerWidth, window.innerHeight ); 
     }
     
-    setEnvironment(){
-        const loader = new RGBELoader().setDataType( THREE.FloatType );
-        const pmremGenerator = new THREE.PMREMGenerator( this.renderer );
-        pmremGenerator.compileEquirectangularShader();
+    // setEnvironment(){
+    //     const loader = new RGBELoader().setDataType( THREE.FloatType );
+    //     const pmremGenerator = new THREE.PMREMGenerator( this.renderer );
+    //     pmremGenerator.compileEquirectangularShader();
         
-        const self = this;
+    //     const self = this;
         
-        loader.load( '../../assets/hdr/venice_sunset_1k.hdr', ( texture ) => {
-        const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
-        pmremGenerator.dispose();
+    //     loader.load( '../../assets/hdr/venice_sunset_1k.hdr', ( texture ) => {
+    //     const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
+    //     pmremGenerator.dispose();
 
-        self.scene.environment = envMap;
+    //     self.scene.environment = envMap;
 
-        }, undefined, (err)=>{
-            console.error( 'An error occurred setting the environment');
-        } );
-    }
+    //     }, undefined, (err)=>{
+    //         console.error( 'An error occurred setting the environment');
+    //     } );
+    // }
     
 	showChair(id){
         this.initAR();
         
-		const loader = new GLTFLoader( ).setPath(this.assetsPath);
+		const loader = new GLTFLoader( ).setPath(this.assetsPath+id+"/");
         const self = this;
         
         this.loadingBar.visible = true;
@@ -117,7 +117,7 @@ class App{
 		// Load a glTF resource
 		loader.load(
 			// resource URL
-			`chair${id}.glb`,
+			`${id}.glb`,
 			// called when the resource is loaded
 			function ( gltf ) {
 
